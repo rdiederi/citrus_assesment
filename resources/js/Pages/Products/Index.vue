@@ -240,7 +240,8 @@ const closeModal = () => {
 
 const fetchProducts = async () => {
   try {
-    const response = await axios.get('/api/products');
+    // Notice: withCredentials: true
+    const response = await axios.get('/api/products', { withCredentials: true });
     products.value = response.data;
   } catch (error) {
     console.error('Failed to fetch products:', error);

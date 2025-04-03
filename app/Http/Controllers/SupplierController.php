@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SupplierController extends Controller
 {
@@ -29,7 +30,11 @@ class SupplierController extends Controller
         ]);
 
         $supplier = Supplier::create($validated);
-        return response()->json($supplier, 201);
+        $suppliers = Supplier::all();
+        return Inertia::render('Suppliers/Index', [
+            'suppliers' => $suppliers,
+            'success' => session('success'),
+        ]);
     }
 
     public function show(Supplier $supplier)

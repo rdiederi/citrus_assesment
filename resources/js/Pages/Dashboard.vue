@@ -74,8 +74,10 @@
   </template>
 
   <script setup>
+  import { ref, reactive, onMounted } from 'vue';
   import AppLayout from '@/Layouts/AppLayout.vue';
   import { Link } from '@inertiajs/vue3';
+  import axios from 'axios';
 
   // We receive the stats prop from the controller
   const props = defineProps({
@@ -89,4 +91,22 @@
       }),
     },
   });
+
+    // A ref to hold user data
+    const user = ref(null)
+
+    // Fetch the authenticated user on mount
+    onMounted(async () => {
+    try {
+        const sessionCookie = document.cookie.match(/SESSION=([^;]+)/)
+        console.log('Dashboard Stored session cookie:', sessionCookie && sessionCookie[1])
+
+        // The XSRF token is present, but the /api/user call still responds with a 401 error
+        const response = await axios.get('/api/user', { withCredentials: true });
+        user.value = response.data;
+        console.log(user.value);
+    } catch (error) {
+        console.error('Failed to fetch user:', error);
+    }
+    })
   </script>

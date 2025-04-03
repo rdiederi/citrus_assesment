@@ -1,88 +1,93 @@
+<!-- resources/js/Pages/Suppliers/Index.vue -->
+
 <template>
     <AppLayout title="Suppliers">
+      <!-- Header Slot -->
       <template #header>
         <div class="flex justify-between items-center">
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Suppliers
           </h2>
-          <button @click="openCreateModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            @click="openCreateModal"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             Add Supplier
           </button>
         </div>
       </template>
 
+      <!-- Main Content -->
       <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+          <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+
             <div v-if="suppliers.length">
               <table class="min-w-full">
                 <thead>
-                  <tr>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Business Name
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Contact Person
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Phone
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
+                  <tr class="bg-gray-50">
+                    <!-- Adjust columns as you see fit -->
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Business Name</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Country</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">VAT Number</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Sales Contact Name</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Sales Contact Email</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Sales Contact Phone</th>
+                    <th class="px-6 py-3 border-b text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                   </tr>
                 </thead>
-                <tbody class="bg-white">
-                  <tr v-for="supplier in suppliers" :key="supplier.id">
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      {{ supplier.business_name }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      {{ supplier.contact_name }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      {{ supplier.email }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      {{ supplier.phone }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                            :class="{
-                              'bg-green-100 text-green-800': supplier.status === 'Active',
-                              'bg-red-100 text-red-800': supplier.status === 'Inactive'
-                            }">
-                        {{ supplier.status }}
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <button @click="editSupplier(supplier)" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
-                      <button @click="deleteSupplier(supplier.id)" class="text-red-600 hover:text-red-900">Delete</button>
+                <tbody>
+                  <tr
+                    v-for="supplier in suppliers"
+                    :key="supplier.id"
+                    class="border-b"
+                  >
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.business_name }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.country }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.vat_number }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.sales_contact_name }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.sales_contact_email }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{ supplier.sales_contact_phone }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                      <button
+                        @click="editSupplier(supplier)"
+                        class="text-indigo-600 hover:text-indigo-900 mr-4"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        @click="deleteSupplier(supplier.id)"
+                        class="text-red-600 hover:text-red-900"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div v-else class="p-6">
+            <!-- No suppliers -->
+            <div v-else class="mt-4">
               No suppliers found.
             </div>
+
           </div>
         </div>
       </div>
 
-      <!-- Supplier Modal -->
-      <div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+      <!-- Supplier Modal (Overlay) -->
+      <div
+        v-if="showModal"
+        class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+      >
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <h3 class="text-lg font-medium mb-4">{{ isEditing ? 'Edit Supplier' : 'Add Supplier' }}</h3>
+          <h3 class="text-lg font-medium mb-4">
+            {{ isEditing ? 'Edit Supplier' : 'Add Supplier' }}
+          </h3>
 
           <form @submit.prevent="submitForm">
             <div class="space-y-4">
+              <!-- Business Name -->
               <div>
                 <InputLabel for="business_name" value="Business Name" />
                 <TextInput
@@ -95,79 +100,125 @@
                 <InputError :message="form.errors.business_name" class="mt-2" />
               </div>
 
-              <div>
-                <InputLabel for="contact_name" value="Contact Person" />
-                <TextInput
-                  id="contact_name"
-                  type="text"
-                  class="mt-1 block w-full"
-                  v-model="form.contact_name"
-                  required
-                />
-                <InputError :message="form.errors.contact_name" class="mt-2" />
-              </div>
-
-              <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                  id="email"
-                  type="email"
-                  class="mt-1 block w-full"
-                  v-model="form.email"
-                  required
-                />
-                <InputError :message="form.errors.email" class="mt-2" />
-              </div>
-
-              <div>
-                <InputLabel for="phone" value="Phone" />
-                <TextInput
-                  id="phone"
-                  type="text"
-                  class="mt-1 block w-full"
-                  v-model="form.phone"
-                  required
-                />
-                <InputError :message="form.errors.phone" class="mt-2" />
-              </div>
-
+              <!-- Address -->
               <div>
                 <InputLabel for="address" value="Address" />
                 <textarea
                   id="address"
-                  class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                  rows="2"
+                  class="mt-1 block w-full border rounded-md"
                   v-model="form.address"
-                  rows="3"
+                  required
                 ></textarea>
                 <InputError :message="form.errors.address" class="mt-2" />
               </div>
 
+              <!-- Country -->
               <div>
-                <InputLabel for="payment_terms" value="Payment Terms" />
+                <InputLabel for="country" value="Country" />
                 <TextInput
-                  id="payment_terms"
+                  id="country"
                   type="text"
                   class="mt-1 block w-full"
-                  v-model="form.payment_terms"
+                  v-model="form.country"
+                  required
                 />
-                <InputError :message="form.errors.payment_terms" class="mt-2" />
+                <InputError :message="form.errors.country" class="mt-2" />
               </div>
 
+              <!-- VAT Number -->
               <div>
-                <InputLabel for="status" value="Status" />
-                <select
-                  id="status"
-                  class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                  v-model="form.status"
+                <InputLabel for="vat_number" value="VAT Number" />
+                <TextInput
+                  id="vat_number"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.vat_number"
                   required
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <InputError :message="form.errors.status" class="mt-2" />
+                />
+                <InputError :message="form.errors.vat_number" class="mt-2" />
+              </div>
+
+              <!-- Sales Contact Name -->
+              <div>
+                <InputLabel for="sales_contact_name" value="Sales Contact Name" />
+                <TextInput
+                  id="sales_contact_name"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.sales_contact_name"
+                  required
+                />
+                <InputError :message="form.errors.sales_contact_name" class="mt-2" />
+              </div>
+
+              <!-- Sales Contact Email -->
+              <div>
+                <InputLabel for="sales_contact_email" value="Sales Contact Email" />
+                <TextInput
+                  id="sales_contact_email"
+                  type="email"
+                  class="mt-1 block w-full"
+                  v-model="form.sales_contact_email"
+                  required
+                />
+                <InputError :message="form.errors.sales_contact_email" class="mt-2" />
+              </div>
+
+              <!-- Sales Contact Phone -->
+              <div>
+                <InputLabel for="sales_contact_phone" value="Sales Contact Phone" />
+                <TextInput
+                  id="sales_contact_phone"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.sales_contact_phone"
+                  required
+                />
+                <InputError :message="form.errors.sales_contact_phone" class="mt-2" />
+              </div>
+
+              <!-- Logistics Contact Name -->
+              <div>
+                <InputLabel for="logistics_contact_name" value="Logistics Contact Name" />
+                <TextInput
+                  id="logistics_contact_name"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.logistics_contact_name"
+                  required
+                />
+                <InputError :message="form.errors.logistics_contact_name" class="mt-2" />
+              </div>
+
+              <!-- Logistics Contact Email -->
+              <div>
+                <InputLabel for="logistics_contact_email" value="Logistics Contact Email" />
+                <TextInput
+                  id="logistics_contact_email"
+                  type="email"
+                  class="mt-1 block w-full"
+                  v-model="form.logistics_contact_email"
+                  required
+                />
+                <InputError :message="form.errors.logistics_contact_email" class="mt-2" />
+              </div>
+
+              <!-- Logistics Contact Phone -->
+              <div>
+                <InputLabel for="logistics_contact_phone" value="Logistics Contact Phone" />
+                <TextInput
+                  id="logistics_contact_phone"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.logistics_contact_phone"
+                  required
+                />
+                <InputError :message="form.errors.logistics_contact_phone" class="mt-2" />
               </div>
             </div>
 
+            <!-- Form Buttons -->
             <div class="flex justify-end mt-6 space-x-3">
               <button
                 type="button"
@@ -176,7 +227,10 @@
               >
                 Cancel
               </button>
-              <Button type="submit" :disabled="processing">
+              <Button
+                type="submit"
+                :disabled="processing"
+              >
                 {{ isEditing ? 'Update' : 'Create' }}
               </Button>
             </div>
@@ -187,109 +241,136 @@
   </template>
 
   <script setup>
-  import { ref, reactive, onMounted } from 'vue';
-  import AppLayout from '@/Layouts/AppLayout.vue';
-  import axios from 'axios';
-  import InputLabel from '@/Components/InputLabel.vue';
-  import TextInput from '@/Components/TextInput.vue';
-  import InputError from '@/Components/InputError.vue';
-  import Button from '@/Components/PrimaryButton.vue';
+  import { ref, reactive, onMounted } from 'vue'
+  import AppLayout from '@/Layouts/AppLayout.vue'
+  import axios from 'axios'
 
-  const suppliers = ref([]);
-  const showModal = ref(false);
-  const isEditing = ref(false);
-  const currentSupplierId = ref(null);
-  const processing = ref(false);
+  // Reusable components (Tailwind-based)
+  import InputLabel from '@/Components/InputLabel.vue'
+  import TextInput from '@/Components/TextInput.vue'
+  import InputError from '@/Components/InputError.vue'
+  import Button from '@/Components/PrimaryButton.vue'
 
+  // Reactive state
+  const suppliers = ref([])
+  const showModal = ref(false)
+  const isEditing = ref(false)
+  const currentSupplierId = ref(null)
+  const processing = ref(false)
+
+  // Match the fields in your controller's validation
+  //   - business_name, address, country, vat_number
+  //   - sales_contact_name, sales_contact_email, sales_contact_phone
+  //   - logistics_contact_name, logistics_contact_email, logistics_contact_phone
   const form = reactive({
     business_name: '',
-    contact_name: '',
-    email: '',
-    phone: '',
     address: '',
-    payment_terms: '',
-    status: 'Active',
+    country: '',
+    vat_number: '',
+    sales_contact_name: '',
+    sales_contact_email: '',
+    sales_contact_phone: '',
+    logistics_contact_name: '',
+    logistics_contact_email: '',
+    logistics_contact_phone: '',
     errors: {}
-  });
+  })
 
+  // Reset the form fields
   const resetForm = () => {
-    form.business_name = '';
-    form.contact_name = '';
-    form.email = '';
-    form.phone = '';
-    form.address = '';
-    form.payment_terms = '';
-    form.status = 'Active';
-    form.errors = {};
-  };
+    form.business_name = ''
+    form.address = ''
+    form.country = ''
+    form.vat_number = ''
+    form.sales_contact_name = ''
+    form.sales_contact_email = ''
+    form.sales_contact_phone = ''
+    form.logistics_contact_name = ''
+    form.logistics_contact_email = ''
+    form.logistics_contact_phone = ''
+    form.errors = {}
+  }
 
+  // Open the modal for new supplier
   const openCreateModal = () => {
-    resetForm();
-    isEditing.value = false;
-    currentSupplierId.value = null;
-    showModal.value = true;
-  };
+    resetForm()
+    isEditing.value = false
+    currentSupplierId.value = null
+    showModal.value = true
+  }
 
+  // Open the modal for editing an existing supplier
   const editSupplier = (supplier) => {
-    resetForm();
-    isEditing.value = true;
-    currentSupplierId.value = supplier.id;
+    resetForm()
+    isEditing.value = true
+    currentSupplierId.value = supplier.id
 
-    form.business_name = supplier.business_name;
-    form.contact_name = supplier.contact_name;
-    form.email = supplier.email;
-    form.phone = supplier.phone;
-    form.address = supplier.address || '';
-    form.payment_terms = supplier.payment_terms || '';
-    form.status = supplier.status;
+    form.business_name = supplier.business_name
+    form.address = supplier.address
+    form.country = supplier.country
+    form.vat_number = supplier.vat_number
+    form.sales_contact_name = supplier.sales_contact_name
+    form.sales_contact_email = supplier.sales_contact_email
+    form.sales_contact_phone = supplier.sales_contact_phone
+    form.logistics_contact_name = supplier.logistics_contact_name
+    form.logistics_contact_email = supplier.logistics_contact_email
+    form.logistics_contact_phone = supplier.logistics_contact_phone
 
-    showModal.value = true;
-  };
+    showModal.value = true
+  }
 
+  // Close the modal
   const closeModal = () => {
-    showModal.value = false;
-  };
+    showModal.value = false
+  }
 
+  // Fetch all suppliers (plain JSON API)
   const fetchSuppliers = async () => {
     try {
-      const response = await axios.get('/api/suppliers');
-      suppliers.value = response.data;
+      // If behind auth, ensure withCredentials: true or set axios.defaults.withCredentials = true globally
+      const response = await axios.get('/api/suppliers')
+      console.log('response data:', response.data);
+      suppliers.value = response.data
     } catch (error) {
-      console.error('Failed to fetch suppliers:', error);
+      console.error('Failed to fetch suppliers:', error)
     }
-  };
+  }
 
+  // Create / Update the supplier
   const submitForm = async () => {
-    processing.value = true;
-    form.errors = {};
+    processing.value = true
+    form.errors = {}
 
     try {
+      // If editing, do PUT /api/suppliers/:id; else POST /api/suppliers
       if (isEditing.value) {
-        await axios.put(`/api/suppliers/${currentSupplierId.value}`, form);
+        await axios.put(`/api/suppliers/${currentSupplierId.value}`, form, { withCredentials: true })
       } else {
-        await axios.post('/api/suppliers', form);
+        await axios.post('/api/suppliers', form, { withCredentials: true })
       }
-
-      closeModal();
-      fetchSuppliers();
+      closeModal()
+      fetchSuppliers()
     } catch (error) {
-      console.error('Failed to submit supplier:', error);
-      form.errors = error.response?.data?.errors || {};
+      console.error('Failed to submit supplier:', error)
+      // If validation errors, store them in form.errors
+      form.errors = error.response?.data?.errors || {}
     } finally {
-      processing.value = false;
+      processing.value = false
     }
-  };
+  }
 
+  // Delete a supplier
   const deleteSupplier = async (id) => {
-    if (!confirm('Are you sure you want to delete this supplier?')) return;
+    if (!confirm('Are you sure you want to delete this supplier?')) return
 
     try {
-      await axios.delete(`/api/suppliers/${id}`);
-      fetchSuppliers();
+      await axios.delete(`/api/suppliers/${id}`, { withCredentials: true })
+      fetchSuppliers()
     } catch (error) {
-      console.error('Failed to delete supplier:', error);
+      console.error('Failed to delete supplier:', error)
     }
-  };
+  }
 
-  onMounted(fetchSuppliers);
+  // On component mount, fetch existing suppliers
+  onMounted(fetchSuppliers)
   </script>

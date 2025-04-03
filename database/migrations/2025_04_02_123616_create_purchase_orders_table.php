@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['POD', 'POS']);
             $table->enum('status', ['New', 'Accepted', 'In Delivery', 'Delivered', 'Rejected', 'Cancelled'])
                   ->default('New');
+            $table->string('order_number')->unique();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('distributor_id')->nullable()->constrained('distributors');
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers');
