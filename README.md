@@ -34,10 +34,14 @@ cp .env.example .env
 ./vendor/bin/sail up -d
 
 # Run database migrations
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate --seed
 
 # Install frontend dependencies
 ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev
+
+Test User
+-u test@example.com
+-p password
 ```
 
 ## Future Improvements
