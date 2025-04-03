@@ -7,12 +7,23 @@ use Illuminate\Http\Request;
 
 class DistributorController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $distributors = Distributor::all();
         return response()->json($distributors);
     }
 
+    /**
+     * Store a newly created distributor in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,11 +43,24 @@ class DistributorController extends Controller
         return response()->json($distributor, 201);
     }
 
+    /**
+     * Display the specified distributor.
+     *
+     * @param  \App\Models\Distributor  $distributor
+     * @return \Illuminate\Http\Response
+     */
     public function show(Distributor $distributor)
     {
         return response()->json($distributor);
     }
 
+    /**
+     * Update the specified distributor in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Distributor  $distributor
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Distributor $distributor)
     {
         $validated = $request->validate([
@@ -56,6 +80,12 @@ class DistributorController extends Controller
         return response()->json($distributor);
     }
 
+    /**
+     * Remove the specified distributor from storage.
+     *
+     * @param  \App\Models\Distributor  $distributor
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Distributor $distributor)
     {
         $distributor->delete();

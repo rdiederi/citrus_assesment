@@ -98,9 +98,6 @@
     // Fetch the authenticated user on mount
     onMounted(async () => {
     try {
-        const sessionCookie = document.cookie.match(/SESSION=([^;]+)/)
-        console.log('Dashboard Stored session cookie:', sessionCookie && sessionCookie[1])
-
         // The XSRF token is present, but the /api/user call still responds with a 401 error
         const response = await axios.get('/api/user', { withCredentials: true });
         user.value = response.data;

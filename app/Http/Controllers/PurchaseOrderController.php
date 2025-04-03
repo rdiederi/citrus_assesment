@@ -10,11 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
 {
+    /**
+     * Display a listing of purchase orders with related distributor, supplier, and product details.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function index()
     {
         $purchaseOrders = PurchaseOrder::with(['distributor', 'supplier', 'items.product'])->get();
         return response()->json($purchaseOrders);
     }
+
+    /**
+     * Store a newly created purchase order in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
     public function store(Request $request)
     {
@@ -73,12 +86,25 @@ class PurchaseOrderController extends Controller
         }
     }
 
+    /**
+     * Display the specified purchase order.
+     *
+     * @param  \App\Models\PurchaseOrder  $purchaseOrder
+     * @return \Illuminate\Http\Response
+     */
     public function show(PurchaseOrder $purchaseOrder)
     {
         $purchaseOrder->load(['distributor', 'supplier', 'items.product', 'parentPO', 'childPOs']);
         return response()->json($purchaseOrder);
     }
 
+    /**
+     * Update the specified purchase order in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\PurchaseOrder  $purchaseOrder
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, PurchaseOrder $purchaseOrder)
     {
         $validated = $request->validate([
@@ -91,6 +117,12 @@ class PurchaseOrderController extends Controller
         return response()->json($purchaseOrder);
     }
 
+    /**
+     * Remove the specified purchase order from storage.
+     *
+     * @param  \App\Models\PurchaseOrder  $purchaseOrder
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(PurchaseOrder $purchaseOrder)
     {
         // Delete associated items first
@@ -99,7 +131,22 @@ class PurchaseOrderController extends Controller
         return response()->json(null, 204);
     }
 
-    // Method to handle PO approval or rejection by FSA
+    /**
+     * Check and process the supplier approval for a purchase order.
+     *
+     * This method handles the approval of a supplier for a given purchase order of type 'POD'
+     * and updates the order status accordingly. If approved, a linked purchase order of type 'POS'
+     * is created with the relevant items. If not approved, the purchase order is marked as rejected.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\PurchaseOrder $purchaseOrder
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * Validates the request data to determine if the purchase order is approved and requires a supplier ID.
+     * If approved, a new 'POS' order is created with items from the current purchase order.
+     * On failure, the transaction is rolled back and an error message is returned.
+     */
+
     public function checkSupplier(Request $request, PurchaseOrder $purchaseOrder)
     {
         if ($purchaseOrder->type !== 'POD' || $purchaseOrder->status !== 'New') {

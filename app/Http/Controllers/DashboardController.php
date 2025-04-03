@@ -10,6 +10,13 @@ use App\Models\PurchaseOrder;
 
 class DashboardController extends Controller
 {
+    /**
+     * Dashboard index page.
+     *
+     * Returns an Inertia response with example stats for the dashboard.
+     *
+     * @return \Inertia\Response
+     */
     public function index()
     {
         // Example stats
